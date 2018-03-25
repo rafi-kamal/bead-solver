@@ -52,7 +52,8 @@ class Board(ABC):
 
     :param move_class: int  the integer representation of the move, the value
                             should be within [0, number_of_move_classes)
-    :return: tuple          A tuple of (prev_pos_row, prev_pos_col, next_pos_row, next_pos_col), representing the move
+    :return: tuple          A tuple of (prev_pos_row, prev_pos_col,
+                            next_pos_row, next_pos_col), representing the move
     """
     return self.moves[move_class]
 

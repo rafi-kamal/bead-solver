@@ -44,12 +44,10 @@ class Bead3(Board):
           self.state[2][i]:
         return self.state[0][i]
 
-    if self.state[0][0] == self.state[1][1] == self.state[2][
-      2]:
+    if self.state[0][0] == self.state[1][1] == self.state[2][2]:
       return self.state[0][0]
 
-    if self.state[0][2] == self.state[1][1] == self.state[2][
-      0]:
+    if self.state[0][2] == self.state[1][1] == self.state[2][0]:
       return self.state[0][2]
 
     return 0
