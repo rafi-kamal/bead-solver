@@ -103,7 +103,8 @@ class Board(ABC):
     self.move_to_move_class_map = {}
     for row_pos, row in enumerate(self.structure):
       for col_pos, directions in enumerate(row):
-        for delta_row, delta_col in directions:
+        for direction in directions:
+          delta_row, delta_col = direction.get_direction_delta()
           move = (row_pos, col_pos, row_pos + delta_row, col_pos + delta_col)
           self.move_to_move_class_map[move] = len(self.moves)
           self.moves.append(move)

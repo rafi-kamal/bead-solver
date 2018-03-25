@@ -106,3 +106,4 @@ venv.bak/
 
 # project specific
 .idea/vcs.xml
+.idea/workspace.xml
