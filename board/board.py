@@ -1,5 +1,6 @@
-from abc import ABC, abstractmethod
 import random
+from abc import ABC, abstractmethod
+
 
 class Board(ABC):
   """
@@ -17,8 +18,8 @@ class Board(ABC):
                       `2` indicates the second player.
     current_player    Player whose move is next.
   """
-  board_structure = None
-  board_state = None
+  structure = None
+  state = None
   current_player = 1
 
   def __init__(self):
@@ -60,8 +61,8 @@ class Board(ABC):
     return 3 - self.current_player
 
   def move(self, pos_row, pos_col, next_pos_row, next_pos_col):
-    self.board_state[next_pos_row][next_pos_col] = self.current_player
-    self.board_state[pos_row][pos_col] = 0
+    self.state[next_pos_row][next_pos_col] = self.current_player
+    self.state[pos_row][pos_col] = 0
     self.current_player = self.other_player()
 
   def move_random(self):
@@ -78,20 +79,20 @@ class Board(ABC):
 
   def get_potential_next_positions(self, row_pos, col_pos):
     potential_next_positions = []
-    for move_direction in self.board_structure[row_pos][col_pos]:
+    for move_direction in self.structure[row_pos][col_pos]:
       row_delta, col_delta = move_direction.get_direction_delta()
       row = row_pos + row_delta
       col = col_pos + col_delta
-      if 0 <= row < len(self.board_state) and 0 <= col < len(
-          self.board_state[row]) and self.board_state[row][col] == 0:
+      if 0 <= row < len(self.state) and 0 <= col < len(
+          self.state[row]) and self.state[row][col] == 0:
         potential_next_positions.append((row, col))
     return potential_next_positions
 
   def __get_bead_positions_for_current_player(self):
-    assert len(self.board_state) > 0 and len(self.board_state[0]) > 0
+    assert len(self.state) > 0 and len(self.state[0]) > 0
 
     bead_positions = []
-    for row_pos, row in enumerate(self.board_state):
+    for row_pos, row in enumerate(self.state):
       for col_pos, col in enumerate(row):
         if col == self.current_player:
           bead_positions.append((row_pos, col_pos))
@@ -100,7 +101,7 @@ class Board(ABC):
   def __calculate_move_classes(self):
     self.moves = []
     self.move_to_move_class_map = {}
-    for row_pos, row in enumerate(self.board_structure):
+    for row_pos, row in enumerate(self.structure):
       for col_pos, directions in enumerate(row):
         for delta_row, delta_col in directions:
           move = (row_pos, col_pos, row_pos + delta_row, col_pos + delta_col)
@@ -109,9 +110,9 @@ class Board(ABC):
 
   def __str__(self):
     spacing = 1
-    str = '=' * (len(self.board_state) + (len(self.board_state) - 1) * spacing)
+    str = '=' * (len(self.state) + (len(self.state) - 1) * spacing)
     str += '\nNext move: Player {}\n'.format(self.current_player)
-    for row in self.board_state:
+    for row in self.state:
       for bead in row:
         str += '{}{}'.format(bead, ' ' * spacing)
       str += '\n' * spacing
